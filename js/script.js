@@ -37,14 +37,21 @@ function printArray(array, htmlElement) {
 
 function intPromptRepeat (times, phrase) {
     let array = [];
-    let standardPhrase = phrase;
+    let insertionIndex = 1;
+    let insertionPhrase = `\nInserimento n° ${insertionIndex}`;
     while (array.length < times) {
-        const thisUserNumber = parseInt(prompt(phrase));
-        phrase = standardPhrase;
+        const thisUserNumber = parseInt(prompt(phrase + insertionPhrase));
+        insertionPhrase = `\nInserimento n° ${insertionIndex}`;
         if (!isNaN(thisUserNumber)) {
-            array.push(thisUserNumber);
+            if (!array.includes(thisUserNumber)) {
+                array.push(thisUserNumber);
+                insertionIndex++;
+                insertionPhrase = `\nInserimento n° ${insertionIndex}`;
+            } else {
+                insertionPhrase += "\nNumero già inserito";
+            }
         } else {
-            phrase += "\nDevi inserire un numero";
+            insertionPhrase += "\nDevi inserire un numero";
         }
     }
     return array;
@@ -60,6 +67,7 @@ function arrayMatch (array1, array2) {
             if (thisArray1Element === thisArray2Element && !matchedElementsArray.includes(thisArray2Element)) {
                 matchedElementsArray.push(thisArray2Element);
                 matchings++;
+                break;
             }
         }
     }
